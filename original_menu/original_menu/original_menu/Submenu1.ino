@@ -6,38 +6,21 @@ void subMenu1()
   switch (submenu) {
   
   case 1:
-  SensorSubMenu("SubMenu 1-1","temp",tempHumidON);
-  if(button == 1) 
-  {
-    SensorSubMenuMeasure("Meas. temp","temp is = ");
-    th.Read();
-    Serial.print("%, temperature: ");
-    Serial.print(th.t);
-    Serial.println("*C");
-    temp1 = th.t;
-    SensorSubMenuvalue(th.t, "C*");
-  }
+  SensorSubMenu("SubMenu 1-1","Temp",tempHumidON);
+  MeasureFunction(button, "Meas. temp", "Temp is = ", th.t, "C");
   break;
   
   case 2:
-  SensorSubMenu("SubMenu 1-2","voltage",1);
+  SensorSubMenu("SubMenu 1-2","Voltage",1);
    if(button == 1) 
    {
-    SensorSubMenuMeasure("Meas. voltage","voltage is = ");
+    SensorSubMenuMeasure("Meas. voltage","Voltage is = ");
    }
   break;
   
   case 3:
-  SensorSubMenu("SubMenu 1-3","humidity",tempHumidON);
-   if(button == 1) 
-   {
-    SensorSubMenuMeasure("Meas. humidity","humid is = ");
-    th.Read();
-    Serial.print("humid: ");
-    Serial.print(th.h);
-    humid1 = th.h;
-    SensorSubMenuvalue(th.h, "%");
-   }
+  SensorSubMenu("SubMenu 1-3","Humidity",tempHumidON);
+  MeasureFunction(button, "Meas. humidity", "Humid is =", th.h, "%");
   break;
   
   case 4:
@@ -60,11 +43,8 @@ void subMenu1()
   switch (submenu) {
   
   case 1:
-  SensorSubMenu("SubMenu 2-1","inside temp",SensorON1);
-  if(button == 1) 
-  {
-    SensorSubMenuMeasure("Meas. in temp","temp is = ");
-  }
+  SensorSubMenu("SubMenu 2-1","Sunlight",SensorON3);
+  MeasureFunction(button, "Meas. Sunlight", "Sunlight is =", (convertFunction(analogRead(analogpin3), 1000, 10)), "");
   break;
   
   case 2:
@@ -248,14 +228,27 @@ void subMenu1()
 
    void SensorSubMenuMeasure(String SensorMenuName, String SensorName)
   {
-  Serial.print(SensorMenuName);
+  Serial.println(SensorMenuName);
   lcdMenuPrintString(SensorMenuName);
   lcdMenuPrint2String(SensorName);
   }
 
      void SensorSubMenuvalue(float MesValue, String unit)
   {
-  Serial.print(MesValue);
   lcd.print(MesValue);
   lcd.print(unit);
   }
+
+  void MeasureFunction(bool button, String FirstLineText, String SecondLineText, float SensorToMeasure, String UnitToShow)
+  {
+     if(button == 1) 
+   {
+    SensorSubMenuMeasure(FirstLineText,SecondLineText);
+    Serial.print(SecondLineText);
+    Serial.print(SensorToMeasure);
+    Serial.println(UnitToShow);
+    SensorSubMenuvalue(SensorToMeasure, UnitToShow);
+   }
+  }
+
+ 
