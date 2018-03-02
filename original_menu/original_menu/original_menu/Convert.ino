@@ -1,6 +1,4 @@
 
-
-
 float convertFunction(float valueConvert, float maxConvert, float minConvert)
 {
   float convertResults = 0;

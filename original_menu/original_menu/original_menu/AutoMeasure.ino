@@ -1,17 +1,22 @@
 
-
 void AutoMeasure()
 {
+       unsigned long currentMillis = millis();
+ if (currentMillis - previousMillis >= interval) 
+  {
+    previousMillis = currentMillis;  
+    
   Serial.print(F("\n AutoMeasuring"));
-  th.Read();
+  
        temp1 = IfOnAnalog(th.t, tempHumidON);
+       temp1 = temp1 - 0.4;
+       humid1 = IfOnAnalog(th.h, tempHumidON);
        unsigned long currentMillis2 = millis();
        if (currentMillis2 - previousMillis2 >= interval2) 
           {
           previousMillis2 = currentMillis2;  
-          humid1 = IfOnAnalog(th.h, tempHumidON);
-          Serial.print("\n\n Auto TEST th.h is = ");
-          Serial.println(humid1);
+          th.Read();
+          
           }
   SensorValue1 = IfOnAnalog(analogRead(analogpin1), SensorON1);
   SensorValue2 = IfOnAnalog(analogRead(analogpin2), SensorON2);
@@ -29,22 +34,24 @@ void AutoMeasure()
   SensorValue14 = IfOnAnalog(analogRead(analogpin14), SensorON14);
   SensorValue15 = IfOnAnalog(analogRead(analogpin15), SensorON15);
   
-  Serial.print(" Auto TEST th.t is = ");
+  Serial.print("\n Auto TEST th.t is = ");
   Serial.println(temp1);
+  Serial.print(" Auto TEST th.h is = ");
+  Serial.println(humid1);
   Serial.print(" Auto TEST sunlight is = ");
   Serial.println(SensorValue3);
   Serial.print(" Auto TEST SensorValue1 is = ");
   Serial.println(SensorValue1);
   Serial.print(F("\n\n AutoMeasring ended"));
- 
-  }
+ }
+}
 
   float IfOnAnalog(float sensorToMeasure, bool IsItOn)
   {
     if (IsItOn == 1)
     {
       float SaveTo;
-    SaveTo = sensorToMeasure;
-    return(SaveTo);
-      }
+      SaveTo = sensorToMeasure;
+      return(SaveTo);
     }
+  }

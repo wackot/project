@@ -1,26 +1,26 @@
-byte lastSubMenu;
 
 void subMenu1()
 {
   
-  switch (submenu) {
-  
+  switch (submenu) 
+  {
   case 1:
   SensorSubMenu("SubMenu 1-1","Temp",tempHumidON);
-  MeasureFunction(button, "Meas. temp", "Temp is = ", th.t, "C");
+  MeasureFunction(button, "Meas. temp", "Temp is = ", temp1, "C", 2);
+  
   break;
   
   case 2:
   SensorSubMenu("SubMenu 1-2","Voltage",1);
    if(button == 1) 
    {
-    SensorSubMenuMeasure("Meas. voltage","Voltage is = ");
+      SensorSubMenuMeasure("Meas. voltage","Voltage is = ");
    }
   break;
   
   case 3:
   SensorSubMenu("SubMenu 1-3","Humidity",tempHumidON);
-  MeasureFunction(button, "Meas. humidity", "Humid is =", th.h, "%");
+  MeasureFunction(button, "Meas. humidity", "Humid is =", humid1, "%", 3);
   break;
   
   case 4:
@@ -35,16 +35,16 @@ void subMenu1()
   }
   lastSubMenu = submenu;
   
-  }
+}
 ////////////////////////////////////////////////////////////////////////////////////////////
   void subMenu2()
 {
   
-  switch (submenu) {
-  
+  switch (submenu) 
+  {
   case 1:
   SensorSubMenu("SubMenu 2-1","Sunlight",SensorON3);
-  MeasureFunction(button, "Meas. Sunlight", "Sunlight is =", (convertFunction(analogRead(analogpin3), 1000, 10)), "");
+  MeasureFunction(button, "Meas. Sunlight", "Sunlight is =", (convertFunction(analogRead(analogpin3), 1000, 10)), "%", 1);
   break;
   
   case 2:
@@ -81,13 +81,13 @@ void subMenu1()
   }
   lastSubMenu = submenu;
   
-  }
+}
   ////////////////////////////////////////////////////////////////////////////////////////////
   void subMenu3()
 {
   
-  switch (submenu) {
-  
+  switch (submenu) 
+  {
   case 1:
   SensorSubMenu("SubMenu 3-1","Sensor 1",SensorON1);
   break;
@@ -105,18 +105,24 @@ void subMenu1()
   break;
   
   case 5:
-  SensorSubMenu("SubMenu 3-5","Sensor 5",SensorON1);
+  SensorSubMenu("SubMenu 3-5","Reread sensor on",1);
+  if(button == 1) 
+  {
+    Sensors();
+    lcdMenuPrint2String("                ");
+    lcdMenuPrint2String("sensor checked");
+  }
   break;
   }
   lastSubMenu = submenu;
   
-  }
+}
   ////////////////////////////////////////////////////////////////////////////////////////////
   void subMenu4()
 {
   
-  switch (submenu) {
-  
+  switch (submenu) 
+  {
   case 1:
   SensorSubMenu("SubMenu 4-1","Sensor 1",SensorON1);
   break;
@@ -139,13 +145,13 @@ void subMenu1()
   }
   lastSubMenu = submenu;
   
-  }
+}
   ////////////////////////////////////////////////////////////////////////////////////////////
   void subMenu5()
 {
   
-  switch (submenu) {
-  
+  switch (submenu) 
+  {
   case 1:
   SensorSubMenu("SubMenu 5-1","Sensor 1",SensorON1);
   break;
@@ -200,55 +206,58 @@ void subMenu1()
   }
   lastSubMenu = submenu;
   
-  }
+}
 
 
   
-  void SensorSubMenu(String SensorMenuName, String SensorName, byte IsItOn)
-  {
-    if (submenu != lastSubMenu)
-  {
-  Serial.println(F("TEST PRINT is sensor connected = "));
-  Serial.print(IsItOn);
+void SensorSubMenu(String SensorMenuName, String SensorName, byte IsItOn)
+{
+     if (submenu != lastSubMenu)
+     {
+        Serial.println(F("TEST PRINT is sensor connected = "));
+        Serial.print(IsItOn);
   
-  Serial.println(SensorMenuName);
-  lcdMenuPrintString(SensorMenuName);
-    if (IsItOn == 1)
-    {
-    lcdMenuPrint2String("                ");
+        Serial.println(SensorMenuName);
+        lcdMenuPrintString(SensorMenuName);
+            if (IsItOn == 1)
+            {
+                lcdMenuPrint2String("                ");
+                lcdMenuPrint2String(SensorName);
+            }
+                else
+                {
+                    lcd.setCursor(0,1);
+                    lcd.print("NOT CONNECTED");
+                }
+    }
+}
+
+void SensorSubMenuMeasure(String SensorMenuName, String SensorName)
+{
+    Serial.println(SensorMenuName);
+    lcdMenuPrintString(SensorMenuName);
     lcdMenuPrint2String(SensorName);
-    }
-    else
-    {
-    lcd.setCursor(0,1);
-    lcd.print("NOT CONNECTED");
-    }
-  }
-  }
+}
 
-   void SensorSubMenuMeasure(String SensorMenuName, String SensorName)
-  {
-  Serial.println(SensorMenuName);
-  lcdMenuPrintString(SensorMenuName);
-  lcdMenuPrint2String(SensorName);
-  }
+void SensorSubMenuvalue(float MesValue, String unit, byte icon)
+{
+     lcd.print(MesValue);
+     lcd.print(unit);
+     lcd.setCursor(15,0);
+     lcd.print(char(icon));
+}
 
-     void SensorSubMenuvalue(float MesValue, String unit)
-  {
-  lcd.print(MesValue);
-  lcd.print(unit);
-  }
-
-  void MeasureFunction(bool button, String FirstLineText, String SecondLineText, float SensorToMeasure, String UnitToShow)
-  {
+void MeasureFunction(bool button, String FirstLineText, String SecondLineText, float SensorToMeasure, String UnitToShow, byte icon)
+{
      if(button == 1) 
-   {
-    SensorSubMenuMeasure(FirstLineText,SecondLineText);
-    Serial.print(SecondLineText);
-    Serial.print(SensorToMeasure);
-    Serial.println(UnitToShow);
-    SensorSubMenuvalue(SensorToMeasure, UnitToShow);
-   }
-  }
+     {
+       SensorSubMenuMeasure(FirstLineText,SecondLineText);
+       Serial.print(SecondLineText);
+       Serial.print(SensorToMeasure);
+       Serial.println(UnitToShow);
+       SensorSubMenuvalue(SensorToMeasure, UnitToShow,icon);
+       
+     }
+}
 
  

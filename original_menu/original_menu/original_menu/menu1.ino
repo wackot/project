@@ -1,4 +1,3 @@
-byte lastMenu;
 
 void menu1()
 {
@@ -8,8 +7,8 @@ void menu1()
   case 1:
   if (menu != lastMenu)
   {
-  MenuFunctionMenu("Menu 1");
-  button = 0;
+     MenuFunctionMenu("Menu 1");
+     button = 0;
   }
   subMenu1();
   MenuRotate();
@@ -18,7 +17,7 @@ void menu1()
   case 2:
   if (menu != lastMenu)
   {
-  MenuFunctionMenu("Menu 2");
+     MenuFunctionMenu("Menu 2");
   }
   subMenu2();
   MenuRotate();
@@ -27,7 +26,7 @@ void menu1()
   case 3:
   if (menu != lastMenu)
   {
-  MenuFunctionMenu("Menu 3");
+     MenuFunctionMenu("Menu 3");
   }
   subMenu3();
   MenuRotate();
@@ -45,7 +44,7 @@ void menu1()
   case 5:
   if (menu != lastMenu)
   {
-  MenuFunctionMenu("Menu 5");
+     MenuFunctionMenu("Menu 5");
   }
   subMenu5();
   MenuRotate();
@@ -53,19 +52,19 @@ void menu1()
   }
   lastMenu = menu;
   
-  }
+}
 
-  void MenuFunctionMenu(String TextMenu)
-  {
-  Serial.println(TextMenu);
-  lcdMenuPrintString(TextMenu);
-  submenu = 0;
-  lastSubMenu = 0;
-    }
+void MenuFunctionMenu(String TextMenu)
+{
+     Serial.println(TextMenu);
+     lcdMenuPrintString(TextMenu);
+     submenu = 0;
+     lastSubMenu = 0;
+}
   
-  void MenuRotate()
-  {
-      if (submenu < 0) submenu = 5;{}
-      if (submenu > 5) submenu = 1;{}
-    }
+void MenuRotate()
+{
+  if (submenu < 0) submenu = 5;{}
+  if (submenu > 5) submenu = 1;{}
+}
     

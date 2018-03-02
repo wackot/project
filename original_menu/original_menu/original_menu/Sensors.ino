@@ -1,40 +1,27 @@
 
-byte SensorNumbers = 0; 
-byte lowThreshold1 = 200;
-byte lowThreshold2 = 1;
-int highThreshold = 1000;
-byte SensorDelay = 50;
-
 void Sensors()
 {
   TestSensorNumber();
 
-  //Serial.print(F("\nSensorNumbers is = "));
-  //Serial.print(SensorNumbers);
-  
   SensorValue1 = analogRead(analogpin1);
   SensorON1 = TestOfUse(SensorValue1, 0, highThreshold);   // 0 = always on
   delay(SensorDelay);
-  
   SensorValue2 = analogRead(analogpin2);
   SensorON2 = TestOfUse(SensorValue2, lowThreshold1, highThreshold);
   delay(SensorDelay);
-  
   SensorValue3 = analogRead(analogpin3);
   SensorON3 = TestOfUse(SensorValue3, lowThreshold2, highThreshold);
   delay(SensorDelay);
-  
   SensorValue4 = analogRead(analogpin4);
   SensorON4 = TestOfUse(SensorValue4, lowThreshold1, highThreshold);
   delay(SensorDelay);
-  
   SensorValue5 = analogRead(analogpin5);
   SensorON5 = TestOfUse(SensorValue5, lowThreshold1, highThreshold);
   delay(SensorDelay);
   
   #ifdef mega
-   SensorValue6 = analogRead(analogpin6);
-   SensorON6 = TestOfUse(SensorValue6, lowThreshold1, highThreshold);
+  SensorValue6 = analogRead(analogpin6);
+  SensorON6 = TestOfUse(SensorValue6, lowThreshold1, highThreshold);
   delay(SensorDelay);
   SensorValue7 = analogRead(analogpin7);
   SensorON7 = TestOfUse(SensorValue7, lowThreshold1, highThreshold);
@@ -75,35 +62,35 @@ void Sensors()
     case 0:
     tempHumidON = 1;
     break;
-    }
-    
   }
+    
+}
 
 
-  void TestSensorNumber()
-  {
-    #ifdef mega
-    SensorNumbers = 15;
-    #else
-    SensorNumbers = 5;
-    #endif
-    }
+void TestSensorNumber()
+{
+     #ifdef mega
+     SensorNumbers = 15;
+     #else
+     SensorNumbers = 5;
+     #endif
+}
 
-    int TestOfUse(int value, byte MinThreshold, byte MaxThreshold)
+int TestOfUse(int value, int MinThreshold, int MaxThreshold)
+{
+    bool x;
+    if (value > MinThreshold and value < MaxThreshold)
     {
-      int x;
-      if (value > MinThreshold and value < MaxThreshold)
-      {
         //Serial.print(F("\nin use"));
         x = 1;
-        } 
+    } 
         else
         {
           //Serial.print(F("\nnot in use"));
         x = 0;
-          }
+        }
 
       return (x);
-      }
+}
 
 
